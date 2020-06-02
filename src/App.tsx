@@ -1,5 +1,4 @@
 import React from 'react'
-import styled from 'styled-components'
 import { HashRouter as Router, Switch, Route, Redirect } from 'react-router-dom'
 import Money from 'views/Money'
 import Statistics from 'views/Statistics'
@@ -19,7 +18,7 @@ function App () {
         <Route exact path='/reportForm'>
           <ReportForm />
         </Route>
-        <Redirect exact from='/' to='/money' />
+        <Redirect exact from='/' to='/statistics' />
         <Route path='*'>
           <NoMatch />
         </Route>
