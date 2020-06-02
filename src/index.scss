@@ -14,4 +14,9 @@ button{font-family: inherit;}
     vertical-align: -0.15em;
     fill: currentColor;
     overflow: hidden;
- }
+}
+.clearfix::after{
+    display:block;
+    content:'';
+    clear: both;
+}
