@@ -18,18 +18,34 @@ const TagsSection = styled.section`
       margin: 8px 12px;
     }
   }
-  button{
-      border:none;
-      background-color:inherit;
-      font-family:none;
-      padding:3px;
-      border-bottom:1px #333 solid;
-      color:#666;
-      margin-top:9px;
+  button {
+    border: none;
+    background-color: inherit;
+    padding: 3px;
+    border-bottom: 1px #333 solid;
+    color: #666;
+    margin-top: 9px;
   }
 `
 
-const NotesSection = styled.section``
+const NotesSection = styled.section`
+  padding: 0 16px;
+  font-size: 14px;
+  label {
+    align-items: center;
+    display: flex;
+    span {
+      white-space: nowrap;
+      margin-right: 16px;
+    }
+    input {
+      width: 100%;
+      height:72px;
+      border:none;
+      background:none;
+    }
+  }
+`
 
 const CategorySection = styled.section`
   ul {
@@ -65,7 +81,7 @@ const Money = () => {
       <NotesSection>
         <label>
           <span>备注</span>
-          <input type='text' />
+          <input type='text' placeholder='请输入备注'/>
         </label>
       </NotesSection>
 

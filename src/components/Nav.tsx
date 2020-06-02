@@ -4,6 +4,7 @@ import { NavLink } from 'react-router-dom'
 import Icon from './Icon'
 
 const NavWrapper = styled.ul`
+  background: #fff;
   display: flex;
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.25);
   li {
@@ -18,8 +19,8 @@ const NavWrapper = styled.ul`
         width: 24px;
         height: 24px;
       }
-      &.selected{
-        color:green;
+      &.selected {
+        color: green;
       }
     }
   }
