@@ -40,19 +40,33 @@ const NotesSection = styled.section`
     }
     input {
       width: 100%;
-      height:72px;
-      border:none;
-      background:none;
+      height: 72px;
+      border: none;
+      background: none;
     }
   }
 `
 
 const CategorySection = styled.section`
+  background-color: #c4c4c4;
+  font-size: 24px;
   ul {
     display: flex;
+    text-align: center;
     li {
+      position: relative;
+      padding: 20px 0;
       width: 50%;
-      border: 1px red solid;
+      &.selected::after {
+        position: absolute;
+        bottom:0;
+        left:0;
+        content: '';
+        background: #333;
+        display: block;
+        height: 3px;
+        width:100%;
+      }
     }
   }
 `
@@ -81,13 +95,13 @@ const Money = () => {
       <NotesSection>
         <label>
           <span>备注</span>
-          <input type='text' placeholder='请输入备注'/>
+          <input type='text' placeholder='请输入备注' />
         </label>
       </NotesSection>
 
       <CategorySection>
         <ul>
-          <li>支出</li>
+          <li className='selected'>支出</li>
           <li>收入</li>
         </ul>
       </CategorySection>
