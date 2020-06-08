@@ -23,7 +23,6 @@ const Money = () => {
   }
   return (
     <MyLayout>
-    {selected.amount}
       <TagsSection
         selected={selected.tags}
         onChange={tags => onChange({ tags })}
