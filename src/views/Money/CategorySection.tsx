@@ -1,6 +1,6 @@
 import styled from 'styled-components'
-
-const CategorySection = styled.section`
+import React, { useState } from 'react'
+const Wrapper = styled.section`
   background-color: #c4c4c4;
   font-size: 24px;
   ul {
@@ -23,5 +23,26 @@ const CategorySection = styled.section`
     }
   }
 `
-
+const CategorySection: React.FC = () => {
+  const [categoryList] = useState<('pay' | 'income')[]>(['pay', 'income'])
+  const categoryMap = { pay: '支出', income: '收入' }
+  const [category, setCategory] = useState('pay') //pay为支出,income为收入
+  return (
+    <Wrapper>
+      <ul>
+        {categoryList.map(t => {
+          return (
+            <li
+              key={t}
+              className={category === t ? 'selected' : ''}
+              onClick={() => setCategory(t)}
+            >
+              {categoryMap[t]}
+            </li>
+          )
+        })}
+      </ul>
+    </Wrapper>
+  )
+}
 export { CategorySection }
