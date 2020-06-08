@@ -1,30 +1,42 @@
 import React from 'react'
 import { Wrapper } from './NumberPadSection/Wrapper'
 import { generateOutput } from './NumberPadSection/generateOutput'
-const NumberPadSection: React.FC = () => {
-  const [output, _setOutput] = React.useState('0')
+
+type Props = { amount: number; onChange: (amout: number) => void }
+
+const NumberPadSection: React.FC<Props> = props => {
+  const output = props.amount.toString()
   const setOutput = (output: string) => {
+    let value
+    console.log(output)
     if (output.length > 10) {
-      output = output.slice(0, 10)
+      value = parseFloat(output.slice(0, 10))
     } else if (output.length === 0) {
-      output = '0'
+      value = 0
+    } else {
+      value = parseFloat(output)
     }
-    _setOutput(output)
+    props.onChange(value)
   }
-  const x = (e: React.MouseEvent) => {
+  const onClick = (e: React.MouseEvent) => {
     const text = (e.target as HTMLButtonElement).textContent
     if (text === null) return
     if (text === 'OK') {
       alert('提交')
     }
-    if('1234567890.C'.split('').concat(['Del']).indexOf(text)>=0){
-      setOutput(generateOutput(text,output))
+    if (
+      '1234567890.C'
+        .split('')
+        .concat(['Del'])
+        .indexOf(text) >= 0
+    ) {
+      setOutput(generateOutput(text, output))
     }
   }
   return (
     <Wrapper>
       <div className='output'>{output}</div>
-      <div className='numberPad clearfix' onClick={x}>
+      <div className='numberPad clearfix' onClick={onClick}>
         <button>1</button>
         <button>2</button>
         <button>3</button>

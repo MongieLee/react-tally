@@ -23,10 +23,14 @@ const Wrapper = styled.section`
     }
   }
 `
-const CategorySection: React.FC = () => {
+type Props = {
+  category: 'pay' | 'income'
+  onChange: (category: 'pay' | 'income') => void
+}
+const CategorySection: React.FC<Props> = props => {
   const [categoryList] = useState<('pay' | 'income')[]>(['pay', 'income'])
   const categoryMap = { pay: '支出', income: '收入' }
-  const [category, setCategory] = useState('pay') //pay为支出,income为收入
+  const category = props.category
   return (
     <Wrapper>
       <ul>
@@ -35,7 +39,7 @@ const CategorySection: React.FC = () => {
             <li
               key={t}
               className={category === t ? 'selected' : ''}
-              onClick={() => setCategory(t)}
+              onClick={() => props.onChange(t)}
             >
               {categoryMap[t]}
             </li>

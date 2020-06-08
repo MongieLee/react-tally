@@ -10,17 +10,36 @@ const MyLayout = styled(Layout)`
   display: flex;
   flex-direction: column;
 `
-
+type Category = 'pay' | 'income'
 const Money = () => {
+  const [selected, setSelected] = React.useState({
+    tags: [] as string[],
+    note: '',
+    category: 'pay' as Category,
+    amount: 0
+  })
+  const onChange = (obj: Partial<typeof selected>) => {
+    setSelected({ ...selected, ...obj })
+  }
   return (
     <MyLayout>
-      <TagsSection />
-      <NotesSection /> 
-      <CategorySection/>
-        
-
-      <NumberPadSection />
-        
+    {selected.amount}
+      <TagsSection
+        selected={selected.tags}
+        onChange={tags => onChange({ tags })}
+      />
+      <NotesSection
+        note={selected.note}
+        onChange={note => onChange({ note })}
+      />
+      <CategorySection
+        category={selected.category}
+        onChange={category => onChange({ category })}
+      />
+      <NumberPadSection
+        amount={selected.amount}
+        onChange={amount => onChange({ amount })}
+      />
     </MyLayout>
   )
 }

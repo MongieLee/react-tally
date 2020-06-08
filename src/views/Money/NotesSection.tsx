@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import React, { useState } from 'react'
+import React from 'react'
 const Wrapper = styled.section`
   padding: 0 16px;
   font-size: 14px;
@@ -18,8 +18,9 @@ const Wrapper = styled.section`
     }
   }
 `
-const NotesSection: React.FC = () => {
-  const [note, setNote] = useState('')
+type Props = { note: string; onChange: (note: string) => void }
+const NotesSection: React.FC<Props> = props => {
+  const note = props.note
   return (
     <Wrapper>
       <label>
@@ -28,7 +29,7 @@ const NotesSection: React.FC = () => {
           type='text'
           placeholder='请输入备注'
           value={note}
-          onChange={e => setNote(e.target.value)}
+          onChange={e => props.onChange(e.target.value)}
         />
       </label>
     </Wrapper>
