@@ -1,18 +1,21 @@
 import React from 'react';
 import Layout from 'components/Layout';
 import { useTags } from 'useTags'
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import Icon from 'components/Icon'
 const TagsList = styled.ul`
     background:white;
     font-size:16px;
     li{
-        padding:10px 0;
         margin:0 16px;
         border-bottom:1px solid grey;
-        display:flex;
-        align-items:center;
-        justify-content:space-between;
+        a{
+            display:flex;
+            align-items:center;
+            padding:10px 0;
+            justify-content:space-between;
+        }
     }
 `
 const Center = styled.div`
@@ -42,8 +45,10 @@ const ReportForm = () => {
                     <li
                         key={tag}
                     >
-                        {tag}
-                        <Icon name='right' />
+                        <Link to={`/tags/${tag}`}>
+                            {tag}
+                            <Icon name='right' />
+                        </Link>
                     </li>
                 ))}
             </TagsList>

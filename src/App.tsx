@@ -5,15 +5,19 @@ import Money from 'views/Money'
 import Statistics from 'views/Statistics'
 import ReportForm from 'views/ReportForm'
 import NoMatch from 'views/NoMatch'
+import { TagEdit } from 'views/TagEdit'
 
 const AppWrapper = styled.div`
   color: #333;
 `
-function App () {
+function App() {
   return (
     <AppWrapper>
       <Router>
         <Switch>
+          <Route exact path='/tags/:tag'>
+            <TagEdit />
+          </Route>
           <Route exact path='/statistics'>
             <Statistics />
           </Route>
