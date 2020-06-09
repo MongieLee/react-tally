@@ -45,7 +45,7 @@ const ReportForm = () => {
                     <li
                         key={tag.id}
                     >
-                        <Link to={`/tags/${tag.name}`}>
+                        <Link to={`/tags/${tag.id}`}>
                             {tag.name}
                             <Icon name='right' />
                         </Link>
