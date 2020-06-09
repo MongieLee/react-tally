@@ -1,6 +1,6 @@
 import styled from 'styled-components'
-import React, { useState } from 'react'
-import {useTags} from 'useTags'
+import React from 'react'
+import { useTags } from 'useTags'
 const Wrapper = styled.section`
   flex-grow: 1;
   padding: 12px 16px;
@@ -32,21 +32,24 @@ const Wrapper = styled.section`
     margin-top: 9px;
   }
 `
-type Props = { selected: string[]; onChange: (tags: string[]) => void }
+type Props = {
+  selected: number[]
+  onChange: (selected: number[]) => void
+}
 const TagsSection: React.FC<Props> = props => {
-  const {tags,setTags} = useTags()
-  const selectedTags = props.selected
+  const { tags, setTags } = useTags()
+  const selectedTagIds = props.selected
   const addTag = () => {
     const tagName = window.prompt('新标签的名称为：')
     if (tagName !== null) {
-      setTags([...tags, tagName])
+      setTags([...tags, { id: Math.random(), name: tagName }])
     }
   }
-  const onToggleTag = (tag: string) => {
-    if (selectedTags.indexOf(tag) >= 0) {
-      props.onChange(selectedTags.filter(t => t !== tag))
+  const onToggleTag = (tagId: number) => {
+    if (selectedTagIds.indexOf(tagId) >= 0) {
+      props.onChange(selectedTagIds.filter(t => t !== tagId))
     } else {
-      props.onChange([...selectedTags, tag])
+      props.onChange([...selectedTagIds, tagId])
     }
   }
   return (
@@ -54,11 +57,11 @@ const TagsSection: React.FC<Props> = props => {
       <ul>
         {tags.map(tag => (
           <li
-            key={tag}
-            onClick={() => onToggleTag(tag)}
-            className={selectedTags.indexOf(tag) >= 0 ? 'selected' : ''}
+            key={tag.id}
+            onClick={() => onToggleTag(tag.id)}
+            className={selectedTagIds.indexOf(tag.id) >= 0 ? 'selected' : ''}
           >
-            {tag}
+            {tag.name}
           </li>
         ))}
       </ul>

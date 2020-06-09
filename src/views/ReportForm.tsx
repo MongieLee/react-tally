@@ -36,17 +36,17 @@ const Button = styled.button`
 `
 
 const ReportForm = () => {
-    const { tags, setTags } = useTags()
+    const { tags} = useTags()
 
     return (
         <Layout>
             <TagsList>
                 {tags.map(tag => (
                     <li
-                        key={tag}
+                        key={tag.id}
                     >
-                        <Link to={`/tags/${tag}`}>
-                            {tag}
+                        <Link to={`/tags/${tag.name}`}>
+                            {tag.name}
                             <Icon name='right' />
                         </Link>
                     </li>
