@@ -4,6 +4,7 @@ import { useTags } from 'useTags'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import Icon from 'components/Icon'
+import {Button} from 'components/Button'
 const TagsList = styled.ul`
     background:white;
     font-size:16px;
@@ -24,15 +25,6 @@ const Center = styled.div`
     justify-content:center;
     padding:20px 0;
     align-items:center;
-
-`
-const Button = styled.button`
-    font-size:18px;
-    border-radius:5px;
-    padding:8px 12px;
-    background:#f60;
-    color:white;
-    border:none;
 `
 
 const ReportForm = () => {
