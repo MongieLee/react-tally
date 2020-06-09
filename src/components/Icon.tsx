@@ -9,7 +9,7 @@ try {
 }
 
 type Props = {
-  name: string
+  name?: string
 }
 const Icon = (props: Props) => {
   return (
