@@ -44,7 +44,7 @@ type Params = {
 }
 
 const TagEdit: React.FC = () => {
-  const { findTag, updateTag } = useTags()
+  const { findTag, updateTag, deleteTag } = useTags()
   let { id } = useParams<Params>()
   const tag = findTag(parseInt(id))
   return (
@@ -54,22 +54,34 @@ const TagEdit: React.FC = () => {
         编辑标签
         <Icon />
       </TopBar>
-      <InputWrapper>
-        <label>
-          <span>编辑标签名：</span>
-          <input
-            type='text'
-            value={tag.name}
-            onChange={e => {
-              updateTag(tag.id, { name: e.target.value })
-            }}
-            placeholder='标签'
-          />
-        </label>
-      </InputWrapper>
-      <ButtonWrapper>
-        <Button>删除标签</Button>
-      </ButtonWrapper>
+      {tag ? (
+        <div>
+          <InputWrapper>
+            <label>
+              <span>编辑标签名：</span>
+              <input
+                type='text'
+                value={tag.name}
+                onChange={e => {
+                  updateTag(tag.id, { name: e.target.value })
+                }}
+                placeholder='标签'
+              />
+            </label>
+          </InputWrapper>
+          <ButtonWrapper>
+            <Button
+              onClick={() => {
+                deleteTag(tag.id)
+              }}
+            >
+              删除标签
+            </Button>
+          </ButtonWrapper>
+        </div>
+      ) : (
+        <div>删除成功</div>
+      )}
     </Layout>
   )
 }

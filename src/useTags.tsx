@@ -26,8 +26,13 @@ const useTags = () => {
     const tagsClone = [...tags]
     tagsClone.splice(index, 1, { id, name: obj.name })
     setTags(tagsClone)
-    console.log(tags)
   }
-  return { tags, setTags, findTag, findTagIndex, updateTag }
+  const deleteTag = (id: number) => {
+    let index = findTagIndex(id)
+    const tagsClone = [...tags]
+    tagsClone.splice(index, 1)
+    setTags(tagsClone)
+  }
+  return { tags, setTags, findTag, findTagIndex, updateTag, deleteTag }
 }
 export { useTags }
