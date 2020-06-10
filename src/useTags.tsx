@@ -25,13 +25,10 @@ const useTags = () => {
     let index = findTagIndex(id)
     const tagsClone = [...tags]
     tagsClone.splice(index, 1, { id, name: obj.name })
-    setTags(tagsClone)
+    setTags(tags.map(tag => (tag.id === id ? { id, name: obj.name } : tag)))
   }
   const deleteTag = (id: number) => {
-    let index = findTagIndex(id)
-    const tagsClone = [...tags]
-    tagsClone.splice(index, 1)
-    setTags(tagsClone)
+    setTags(tags.filter(tag => tag.id !== id))
   }
   return { tags, setTags, findTag, findTagIndex, updateTag, deleteTag }
 }
