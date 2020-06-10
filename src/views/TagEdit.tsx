@@ -44,10 +44,7 @@ type Params = {
 }
 
 const TagEdit: React.FC = () => {
-  const onChange = (e: any) => {
-    console.log(e.tagget.value)
-  }
-  const { findTag } = useTags()
+  const { findTag, updateTag } = useTags()
   let { id } = useParams<Params>()
   const tag = findTag(parseInt(id))
   return (
@@ -64,7 +61,7 @@ const TagEdit: React.FC = () => {
             type='text'
             value={tag.name}
             onChange={e => {
-              onChange(e)
+              updateTag(tag.id, { name: e.target.value })
             }}
             placeholder='标签'
           />
