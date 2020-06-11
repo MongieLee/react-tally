@@ -8,7 +8,7 @@ type newRecordItem = {
   amount: number
 }
 
-type RecordItem = newRecordItem & {
+export type RecordItem = newRecordItem & {
   createdAt: string //ISO 8601
 }
 export const useRecord = () => {
