@@ -15,7 +15,6 @@ export const useRecord = () => {
   const [records, setRecords] = useState<RecordItem[]>([])
 
   useEffect(() => {
-    // console.log(JSON.parse(window.localStorage.getItem('recordList') || '[]'))
     setRecords(JSON.parse(window.localStorage.getItem('recordList') || '[]'))
   }, [])
   const addRecord = (newRecord: newRecordItem) => {
