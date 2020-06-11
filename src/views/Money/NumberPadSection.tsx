@@ -2,13 +2,16 @@ import React from 'react'
 import { Wrapper } from './NumberPadSection/Wrapper'
 import { generateOutput } from './NumberPadSection/generateOutput'
 
-type Props = { amount: number; onChange: (amout: number) => void }
+type Props = {
+  amount: number
+  onChange: (amout: number) => void
+  onOk: () => void
+}
 
 const NumberPadSection: React.FC<Props> = props => {
   const output = props.amount.toString()
   const setOutput = (output: string) => {
     let value
-    console.log(output)
     if (output.length > 10) {
       value = parseFloat(output.slice(0, 10))
     } else if (output.length === 0) {
@@ -22,7 +25,7 @@ const NumberPadSection: React.FC<Props> = props => {
     const text = (e.target as HTMLButtonElement).textContent
     if (text === null) return
     if (text === 'OK') {
-      alert('提交')
+      props.onOk && props.onOk()
     }
     if (
       '1234567890.C'
