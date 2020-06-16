@@ -102,40 +102,55 @@ const DayInfo = styled.div`
         margin-right: 5px;
       }
 `
-let currentPay: number = 0
-let currentIncome: number = 0
-const ddd = (recordList: any) => {
+let currentPay: number = 0 //当前月份总支出
+let currentIncome: number = 0 //当前月份总收入
+const ddd = (recordList: any, currentM: any) => {
+  currentPay = 0
+  currentIncome = 0
+  //遍历所有账单
   if (recordList.length === 0) {
+    //账单为空就返回
+    console.log('999999999999999999')
     return recordList
   }
-  let currentM = new Date()
+  //   let currentM = new Date() //获取当前时间
   let currentMonthList = JSON.parse(JSON.stringify(recordList)).filter(
+    //遍历所有账单筛选出当前月份的时间
     (item: any) => {
       if (dayJs(item.createdAt).get('month') === dayJs(currentM).get('month')) {
+        //如果账单的月份等于当前月份则加进数组中
         return item
       }
     }
   )
-  let xxx = [] as any[]
+  let xxx = [] as any[] //声明一个空数组
   currentMonthList.map((v: any) => {
-    let day = dayJs(v.createdAt).get('date')!
+    //遍历当前月账单数组
+    let day = dayJs(v.createdAt).get('date')! //获取每一笔账单为几号
     if (!xxx[day]) {
-      xxx[day] = []
-      xxx[day].push(v)
+      //如果xxx数组中没有这个号
+      xxx[day] = [] //赋值下标为号，值为空数组
+      xxx[day].push(v) //将这条账单加入数组中
     } else {
       xxx[day].push(v)
     }
   })
   xxx.map(w => {
+    //遍历分好每一天账单的数组
     w.sort(
-      (a: any, b: any) =>
-        dayJs(b.createdAt).valueOf() - dayJs(a.createdAt).valueOf()
+      (
+        a: any,
+        b: any //对每一天的账单数据进行排序
+      ) => dayJs(b.createdAt).valueOf() - dayJs(a.createdAt).valueOf() //按时间最新倒序排列
       //  dayJs(a.createTime).valueOf() - dayJs(b.createTime).valueOf()
     )
     w.map((k: any) => {
+      //排序后再次遍历每一天的账单数据
       if (k.category === 'pay') {
-        currentPay += parseFloat(k.amount)
+        //如果账单的数据是支出
+        currentPay += parseFloat(k.amount) //收集当天每一笔支出
       } else if (k.category === 'income') {
+        //相反为收入
         currentIncome += parseFloat(k.amount)
       }
     })
@@ -168,40 +183,24 @@ const getIncome = (arr: any[]) => {
 }
 
 const Hahaha = styled.div`
-  width: 120px;
+  width: 138px;
 `
 const DateWrapper = styled.div`
   display: flex;
   flex-direction: column-reverse;
 `
 const Statistics = () => {
+  const [currentM, setCurrentM] = useState(new Date())
   const { records } = useRecord()
-  const { paixuhoude, currentPay, currentIncome } = ddd(records)
+  const { currentPay, currentIncome } = ddd(records, currentM)
+  let paixuhoude = ddd(records, currentM).paixuhoude
   console.log(paixuhoude, currentPay, currentIncome)
-  console.log(typeof paixuhoude)
-  const hash: any = {}
-  records.map(item => {
-    const key = dayJs(item.createdAt).format('YYYY-MM-DD')
-    const value = item
-    if (!(key in hash)) hash[key] = []
-    hash[key].push(value)
-  })
-  if (paixuhoude) {
-    paixuhoude.map((i: any, index: any) => console.log(index, i))
+  if (!paixuhoude) {
+    paixuhoude = []!
   }
-  const array = Object.entries(hash).sort((a, b) => {
-    //   a[0]===b[0]&&( return 0)
-    //   a[0]>b[0]&&(return -1)
-    //   a[0]<b[0]&& (return 1)
-    if (a[0] === b[0]) return 0
-    if (a[0] > b[0]) return -1
-    if (a[0] < b[0]) return 1
-    return 0
-  })
-
   const getMonth = () => {
     let currentM = new Date()
-    return dayJs(currentM).get('month')
+    return dayJs(currentM).get('month') + 1
   }
   const getDate = function (index: any) {
     let objMap: any = {
@@ -218,14 +217,16 @@ const Statistics = () => {
     } else {
       console.log(paixuhoude[index][0].createdAt, '---')
       console.log('星期几', dayJs(paixuhoude[index][0].createdAt).get('day'))
-      return `${getMonth() + 1}月${index}号 星期${
+      return `${getMonth()}月${index}号 星期${
         objMap[dayJs(paixuhoude[index][0].createdAt).get('day')]
       }`
     }
   }
-  console.log(array)
   const getRecordsList = () => {
-    if (array.length === 0) {
+    console.log('paixuhoude:')
+    console.log(paixuhoude)
+
+    if (paixuhoude.length === 0) {
       return (
         <div className='no-data'>
           <Icon name='no-data' />
@@ -266,7 +267,6 @@ const Statistics = () => {
       )
     }
   }
-
   return (
     <Layout>
       <TextTitle>
@@ -275,6 +275,11 @@ const Statistics = () => {
       <TimeAndCount>
         <Hahaha>
           <DatePicker
+            onChange={(a: any, b: any) => {
+              let [year, month] = b.split('/')
+              let x = parseInt(month) - 1
+              setCurrentM(new Date(year, x))
+            }}
             defaultValue={moment('2020/06', 'YYYY/MM')}
             format='YYYY/MM'
             locale={zhCN}
