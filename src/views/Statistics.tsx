@@ -3,7 +3,31 @@ import Layout from 'components/Layout'
 import styled from 'styled-components'
 import { useRecord, RecordItem } from 'hooks/useRecord'
 import day from 'dayjs'
+import 'antd/dist/antd.css'
+import { DatePicker } from 'antd';
+// import zhCN from 'antd/es/date-picker/locale/zh_CN'; // 引入中文包
+import 'moment/locale/zh-cn';
+import moment from 'moment';
+import zhCN from 'antd/lib/date-picker/locale/zh_CN';
+import Icon from '../components/Icon'
 import { useTags } from 'hooks/useTags'
+const TextTitle = styled.div`
+  background-color: rgb(255, 218, 71);
+  text-align: center;
+  padding: 12px 0 0;
+  font-size: 20px;
+`
+console.log(zhCN)
+
+const TimeAndCount = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgb(255, 218, 71);
+  span {
+    margin-right: 13px;
+  }
+`
 const CategorySection = styled.ul`
   display: flex;
   text-align: center;
@@ -19,18 +43,25 @@ const CategorySection = styled.ul`
 `
 
 const RecordsWrapper = styled.div`
-  margin-top: 20px;
-  background-color: white;
-  ul {
-    li {
-      display: flex;
-      justify-content: space-between;
-      .note {
-        margin-right: auto;
-        margin-left: 16px;
-      }
+    height: 100%;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    color: #999;
+    .icon {
+      width: 80px;
+      height: 80px;
     }
-  }
+    span {
+      font-size: 14px;
+    }
+    > div.no-data{
+      height:100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
 `
 
 const Statistics = () => {
@@ -58,27 +89,16 @@ const Statistics = () => {
     setCategory(type)
   }
   console.log(array)
-  return (
-    <Layout>
-      <CategorySection>
-        <li
-          onClick={() => {
-            onClick('pay')
-          }}
-          className={category === 'pay' ? 'selected' : ''}
-        >
-          支出
-        </li>
-        <li
-          onClick={() => {
-            onClick('income')
-          }}
-          className={category === 'income' ? 'selected' : ''}
-        >
-          收入
-        </li>
-      </CategorySection>
-      <RecordsWrapper>
+  const getRecordsList = () => {
+    if (array.length === 0) {
+      return (
+        <div className='no-data'>
+          <Icon name="no-data" />
+          <span>暂无数据,快去记一笔吧~</span>
+        </div>
+      )
+    } else {
+      return (
         <div>
           {array.map(([date, records]) => {
             return (
@@ -102,6 +122,25 @@ const Statistics = () => {
             )
           })}
         </div>
+      )
+    }
+  }
+
+  return (
+    <Layout>
+      <TextTitle>
+        <span>轻记账</span>
+      </TextTitle>
+      <TimeAndCount>
+        <DatePicker defaultValue={moment('2020/06', 'YYYY/MM')} format='YYYY/MM' locale={zhCN} picker="month"></DatePicker>
+        <div>
+          <span>收入：0.00</span>
+          <span>支出：0.00</span>
+        </div>
+      </TimeAndCount>
+
+      <RecordsWrapper>
+        {getRecordsList()}
       </RecordsWrapper>
     </Layout>
   )

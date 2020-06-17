@@ -7,6 +7,7 @@ const NavWrapper = styled.ul`
   background: #fff;
   display: flex;
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.25);
+  margin-bottom: 0;
   li {
     width: 33.3333%;
     padding: 4px 0;
