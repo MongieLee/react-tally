@@ -19,8 +19,8 @@ const NavWrapper = styled.ul`
         width: 24px;
         height: 24px;
       }
-      &.selected {
-        color: green;
+      &.selected .icon{
+        color: rgb(255, 218, 71);;
       }
     }
   }
