@@ -30,6 +30,10 @@ const Money = () => {
   }
   return (
     <MyLayout>
+      <CategorySection
+        category={selected.category}
+        onChange={category => onChange({ category })}
+      />
       <TagsSection
         selected={selected.tagIds}
         onChange={tagIds => onChange({ tagIds })}
@@ -37,10 +41,6 @@ const Money = () => {
       <NotesSection
         note={selected.note}
         onChange={note => onChange({ note })}
-      />
-      <CategorySection
-        category={selected.category}
-        onChange={category => onChange({ category })}
       />
       <NumberPadSection
         amount={selected.amount}

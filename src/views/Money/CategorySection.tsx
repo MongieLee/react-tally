@@ -1,27 +1,41 @@
 import styled from 'styled-components'
 import React, { useState } from 'react'
+import Icon from 'components/Icon'
 const Wrapper = styled.section`
-  background-color: #c4c4c4;
-  font-size: 24px;
-  ul {
+  position: relative;
+  background-color: rgb(255, 218, 71);
+  .icon {
+        font-size: 5px;
+        position: absolute;
+        left: 40px;
+        top: 20px;
+        width: 22px;
+        height: 22px;
+      }
+  .type-list {
+    margin-bottom: 0;
     display: flex;
-    text-align: center;
+    justify-content: center;
     li {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px 10px 10px;
       position: relative;
-      padding: 20px 0;
-      width: 50%;
       &.selected::after {
+        content: "";
+        display: block;
+        width: 100%;
+        border: 2px black solid;
+        border-radius: 5px;
         position: absolute;
         bottom: 0;
-        left: 0;
-        content: '';
-        background: #333;
-        display: block;
-        height: 3px;
-        width: 100%;
+        left: 50%;
+        transform: translateX(-50%);
       }
     }
-  }
+    
+  }    
 `
 type Props = {
   category: 'pay' | 'income'
@@ -33,7 +47,7 @@ const CategorySection: React.FC<Props> = props => {
   const category = props.category
   return (
     <Wrapper>
-      <ul>
+      <ul className='type-list'>
         {categoryList.map(t => {
           return (
             <li
@@ -46,7 +60,12 @@ const CategorySection: React.FC<Props> = props => {
           )
         })}
       </ul>
-    </Wrapper>
+      <span>
+        <Icon name="close" />
+      </span>
+    </Wrapper >
   )
 }
+
+
 export { CategorySection }
