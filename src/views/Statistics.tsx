@@ -67,7 +67,6 @@ const RecordsWrapper = styled.div`
 const Statistics = () => {
   const [category, setCategory] = useState('pay')
   const { records } = useRecord()
-  const { getName } = useTags()
   const hash: { [key: string]: RecordItem[] } = {}
   const selectedRecords = records.filter(record => record.category === category)
   selectedRecords.map(item => {
@@ -105,18 +104,7 @@ const Statistics = () => {
               <div key={date}>
                 {date}
                 <ul>
-                  {records.map(r => {
-                    return (
-                      <li key={r.createdAt}>
-                        {r.tagIds.map(tagId => (
-                          <span key={r.createdAt}>{getName(tagId)}</span>
-                        ))}
-                        {r.note && <div className='note'>{r.note}</div>}
-
-                        <div>￥ {r.amount}</div>
-                      </li>
-                    )
-                  })}
+                  
                 </ul>
               </div>
             )

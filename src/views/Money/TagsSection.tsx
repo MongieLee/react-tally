@@ -6,37 +6,10 @@ import Icon from 'components/Icon'
 import { Link } from 'react-router-dom'
 const Wrapper = styled.section`
   flex-grow: 1;
-  padding: 12px 16px;
-  background-color: #fff;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  align-items: flex-start;
-  ul {
-    margin: 0 -12px;
-    li {
-      background-color: #d9d9d9;
-      border-radius: 18px;
-      display: inline-block;
-      padding: 3px 18px;
-      font-size: 14px;
-      margin: 8px 12px;
-      &.selected {
-        background-color: red;
-      }
-    }
-  }
-  button {
-    border: none;
-    background-color: inherit;
-    padding: 3px;
-    border-bottom: 1px #333 solid;
-    color: #666;
-    margin-top: 9px;
-  }
 `
 
 const Tags = styled.div`
+.currentTags{
   margin-top: 10px;
   display: flex;
   flex-wrap: wrap;
@@ -63,19 +36,45 @@ const Tags = styled.div`
       }
     }
   }
+}
+.add-wrapper{
+  width: 25%;
+  a{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 8px;
+    span {
+      font-size: 12px;
+      margin-top: 5px;
+    }
+    .icon {
+      border-radius: 50%;
+      height: 40px;
+      width: 40px;
+      padding: 10px;
+    }
+    &.highlight {
+      .icon {
+        background: rgb(255, 218, 71);
+      }
+    }
+}}
 `
 type Props = {
   selected: number[]
   onChange: (selected: number[]) => void
 }
 const TagsSection: React.FC<Props> = props => {
+  let [c, setC] = useState({ name: "衣", iconName: "food", tagType: "吃喝" })
   const [userTags, setUserTags] = useState([1, 2])
-  
+  useTags()
+  const tags = JSON.parse(localStorage.getItem('userTags') || '[]')!
+  console.log(tags)
   console.log(userTags)
-  const { tags, addTag } = useTags()
   const selectedTagIds = props.selected
   const clickAddButton = () => {
-    addTag()
   }
   const onToggleTag = (tagId: number) => {
     if (selectedTagIds.indexOf(tagId) >= 0) {
@@ -88,32 +87,29 @@ const TagsSection: React.FC<Props> = props => {
     <Wrapper>
       <Tags>
         <ul className='currentTags'>
-          <li>
-            <Icon />
-            <span></span>
-          </li>
+          {tags.map((item: any) => {
+            return (
+              <li
+                onClick={() => { setC({ ...item }); console.log(c) }}
+                className={c.name === item.name ? 'highlight' : ''}
+                key={item.name}>
+                <Icon name={item.iconName} />
+                <span>{item.name}</span>
+              </li>)
+          })}
+          <div className='add-wrapper'>
+            <Link to='/labels'>
+              <Icon
+                onClick={() => {
+                  clickAddButton()
+                }}
+                name='add'
+              />
+              <span>添加</span>
+            </Link>
+          </div>
         </ul>
       </Tags>
-      <ul>
-        {tags.map(tag => (
-          <li
-            key={tag.id}
-            onClick={() => onToggleTag(tag.id)}
-            className={selectedTagIds.indexOf(tag.id) >= 0 ? 'selected' : ''}
-          >
-            {tag.name}
-          </li>
-        ))}
-      </ul>
-      <Link to='/labels'>
-        <button
-          onClick={() => {
-            clickAddButton()
-          }}
-        >
-          新增标签
-        </button>
-      </Link>
     </Wrapper>
   )
 }

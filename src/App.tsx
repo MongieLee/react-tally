@@ -5,7 +5,6 @@ import Money from 'views/Money'
 import Statistics from 'views/Statistics'
 import ReportForm from 'views/ReportForm'
 import NoMatch from 'views/NoMatch'
-import { TagEdit } from 'views/TagEdit'
 import { TagEditw } from 'views/TagEditCopy'
 
 const AppWrapper = styled.div`
@@ -16,9 +15,6 @@ function App() {
     <AppWrapper>
       <Router>
         <Switch>
-          <Route exact path='/tags/:id'>
-            <TagEdit />
-          </Route>
           <Route exact path='/labels'>
             <TagEditw />
           </Route>

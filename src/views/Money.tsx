@@ -42,6 +42,7 @@ const Money = () => {
         note={selected.note}
         onChange={note => onChange({ note })}
       />
+
       <NumberPadSection
         amount={selected.amount}
         onOk={submit}

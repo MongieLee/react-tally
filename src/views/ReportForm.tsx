@@ -28,21 +28,13 @@ const Center = styled.div`
 `
 
 const ReportForm = () => {
-  const { tags,addTag } = useTags()
   return (
     <Layout>
       <TagsList>
-        {tags.map(tag => (
-          <li key={tag.id}>
-            <Link to={`/tags/${tag.id}`}>
-              {tag.name}
-              <Icon name='right' />
-            </Link>
-          </li>
-        ))}
+
       </TagsList>
       <Center>
-        <Button onClick={() => {addTag()}}>添加标签</Button>
+        <Button onClick={() => { }}>添加标签</Button>
       </Center>
     </Layout>
   )
