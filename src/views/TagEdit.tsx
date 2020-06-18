@@ -5,6 +5,7 @@ import { useParams, useHistory } from 'react-router-dom'
 import Layout from 'components/Layout'
 import { Button } from 'components/Button'
 import Icon from 'components/Icon'
+import { useAllTags } from 'hooks/useAllTags'
 const TopBar = styled.div`
   padding: 10px;
   background-color: white;
@@ -44,6 +45,8 @@ type Params = {
 }
 
 const TagEdit: React.FC = () => {
+  const { getTags } = useAllTags()
+  console.log(getTags())
   const { findTag, updateTag, deleteTag } = useTags()
   let { id } = useParams<Params>()
   const tag = findTag(parseInt(id))
