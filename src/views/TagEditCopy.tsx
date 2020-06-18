@@ -85,8 +85,14 @@ const TagEditw: React.FC = () => {
   //     window.localStorage.setItem('userTags', JSON.stringify(userTags))
   //   }
   // }, [])
+  const [defaultSelected, setDefaultSelected] = useState({ name: '餐饮', tagType: '吃喝' })
   const { getTags } = useAllTags()
   const { foods, life, play } = getTags()
+
+  const selectedTagEvent = (name: string, tagType: string) => {
+    setDefaultSelected({ name, tagType })
+  }
+  const xxx = 12121
   return (
     <TagsWrapper>
       <div className='action-bar'>
@@ -94,21 +100,21 @@ const TagEditw: React.FC = () => {
           <Icon name='back' />
           <span className='backFont'>请选择标签</span>
         </span>
-        <span>完成</span>
+        <span onClick={()=>{console.log('qjwkljkqlwq')}}>完成</span>
       </div>
       <div className='selectedTag'>
         <span>
           <span>已选中标签：</span>
-          <span></span>
+          <span>{defaultSelected.name}</span>
         </span>
-        <span></span>
+        <span>{defaultSelected.tagType}</span>
       </div>
       <div className='tag-item-wrapper'>
         <p>吃喝</p>
         <ul className='item-container'>
           {foods.map(item => {
             return (
-              <li key={item.name} className='tagItem'>
+              <li onClick={() => { selectedTagEvent(item.name, item.tagType) }} key={item.name} className={`tagItem ${item.name === defaultSelected.name ? 'highLight' : ''}`} >
                 <Icon name={item.iconName} />
                 <span>{item.name}</span>
               </li>
@@ -120,7 +126,7 @@ const TagEditw: React.FC = () => {
         <ul className='item-container'>
           {life.map(item => {
             return (
-              <li key={item.name} className='tagItem'>
+              <li key={item.name} className={'tagItem ' + (item.iconName === defaultSelected.name ? 'highLight' : '')}>
                 <Icon name={item.iconName} />
                 <span>{item.name}</span>
               </li>
