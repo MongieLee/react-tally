@@ -13,9 +13,7 @@ const Wrapper = styled.section`
       height: 64px;
       width: 25%;
       border: 1px #ddd solid;
-      &:not(:last-child) {
-        background: rgb(242, 243, 245);
-      }
+      background: rgb(242, 243, 245);
       &.zero {
         width: 50%;
       }

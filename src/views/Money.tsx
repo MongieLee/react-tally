@@ -5,6 +5,7 @@ import { TagsSection } from './Money/TagsSection'
 import { NotesSection } from './Money/NotesSection'
 import { CategorySection } from './Money/CategorySection'
 import { NumberPadSection } from './Money/NumberPadSection'
+import { useHistory } from 'react-router-dom'
 import { useRecord } from 'hooks/useRecord'
 const MyLayout = styled(Layout)`
   display: flex;
@@ -12,41 +13,52 @@ const MyLayout = styled(Layout)`
 `
 type Category = 'pay' | 'income'
 const defaultSelected = {
-  tagIds: [] as number[],
+  tag: { name: '餐饮', tagType: '吃喝', iconName: 'food' },
   note: '',
   category: 'pay' as Category,
   amount: 0
 }
-const Money = () => {
+const Money: React.FC = () => {
   const [selected, setSelected] = React.useState(defaultSelected)
   const { records, addRecord } = useRecord()
-  const onChange = (obj: Partial<typeof selected>) => {
-    setSelected({ ...selected, ...obj })
+  const history = useHistory()
+  const onChange = (obj: any) => {
+    console.log(obj)
+    let o = { ...selected }
+    o.tag = obj
+    setSelected({ ...o })
+  }
+  const amountChange = (amount: any) => {
+    setSelected({ ...selected, amount })
+  }
+
+  const notesChange = (note: any) => {
+    setSelected({ ...selected, note })
+  }
+  const categoryChange = (category: any) => {
+    setSelected({ ...selected, category })
+  }
+
+  const tagChange = (tag: any) => {
+    setSelected({ ...selected, tag })
   }
   const submit = () => {
     addRecord(selected)
-    alert('ok')
-    setSelected(defaultSelected)
+    history.push('/')
   }
   return (
     <MyLayout>
       <CategorySection
         category={selected.category}
-        onChange={category => onChange({ category })}
+        onChange={category => categoryChange(category)}
       />
-      <TagsSection
-        selected={selected.tagIds}
-        onChange={tagIds => onChange({ tagIds })}
-      />
-      <NotesSection
-        note={selected.note}
-        onChange={note => onChange({ note })}
-      />
+      <TagsSection selected={selected.tag} onChange={tag => tagChange(tag)} />
+      <NotesSection note={selected.note} onChange={note => notesChange(note)} />
 
       <NumberPadSection
         amount={selected.amount}
         onOk={submit}
-        onChange={amount => onChange({ amount })}
+        onChange={amount => amountChange(amount)}
       />
     </MyLayout>
   )

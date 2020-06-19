@@ -1,8 +1,10 @@
 import styled from 'styled-components'
 import React from 'react'
 const Wrapper = styled.section`
-  padding: 0 16px;
-  font-size: 14px;
+  padding: 3px 10px 3px 15px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
   label {
     align-items: center;
     display: flex;
@@ -11,10 +13,11 @@ const Wrapper = styled.section`
       margin-right: 16px;
     }
     input {
-      width: 100%;
-      height: 72px;
+      margin-left: 10px;
+      flex-grow: 1;
       border: none;
-      background: none;
+      padding: 5px 3px;
+      background: transparent;
     }
   }
 `

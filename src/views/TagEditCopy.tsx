@@ -80,15 +80,22 @@ const TagEditw: React.FC = () => {
   useTags()
   const tags = JSON.parse(localStorage.getItem('userTags') || '[]')!
   console.log(tags)
-  const [defaultSelected, setDefaultSelected] = useState({ name: '餐饮', tagType: '吃喝', iconName: 'food' })
+  const [defaultSelected, setDefaultSelected] = useState({
+    name: '餐饮',
+    tagType: '吃喝',
+    iconName: 'food'
+  })
   const { getTags } = useAllTags()
   const { foods, life, play } = getTags()
 
-  const selectedTagEvent = (name: string, tagType: string, iconName: string) => {
-    setDefaultSelected({ name, iconName, tagType })
+  const selectedTagEvent = (
+    name: string,
+    tagType: string,
+    iconName: string
+  ) => {
+    setDefaultSelected({ name, tagType, iconName })
   }
   const aaa = (item: any) => {
-
     let m = tags.filter((a: any) => {
       console.log(JSON.stringify(a) === JSON.stringify(item))
 
@@ -102,17 +109,28 @@ const TagEditw: React.FC = () => {
       let tempList = [...tags, item]
       console.log(tempList)
       window.localStorage.setItem('userTags', JSON.stringify(tempList))
-      history.push(`/money`);
+      history.push(`/money`)
     }
   }
   return (
     <TagsWrapper>
       <div className='action-bar'>
         <span>
-          <Icon name='back' onClick={() => { goBack() }} />
+          <Icon
+            name='back'
+            onClick={() => {
+              goBack()
+            }}
+          />
           <span className='backFont'>请选择标签</span>
         </span>
-        <span onClick={() => { aaa(defaultSelected) }}>完成</span>
+        <span
+          onClick={() => {
+            aaa(defaultSelected)
+          }}
+        >
+          完成
+        </span>
       </div>
       <div className='selectedTag'>
         <span>
@@ -126,7 +144,15 @@ const TagEditw: React.FC = () => {
         <ul className='item-container'>
           {foods.map(item => {
             return (
-              <li onClick={() => { selectedTagEvent(item.name, item.tagType, item.iconName) }} key={item.name} className={`tagItem ${item.name === defaultSelected.name ? 'highLight' : ''}`} >
+              <li
+                onClick={() => {
+                  selectedTagEvent(item.name, item.tagType, item.iconName)
+                }}
+                key={item.name}
+                className={`tagItem ${
+                  item.name === defaultSelected.name ? 'highLight' : ''
+                }`}
+              >
                 <Icon name={item.iconName} />
                 <span>{item.name}</span>
               </li>
@@ -138,7 +164,15 @@ const TagEditw: React.FC = () => {
         <ul className='item-container'>
           {life.map(item => {
             return (
-              <li onClick={() => { selectedTagEvent(item.name, item.tagType, item.iconName) }} key={item.name} className={`tagItem ${item.name === defaultSelected.name ? 'highLight' : ''}`} >
+              <li
+                onClick={() => {
+                  selectedTagEvent(item.name, item.tagType, item.iconName)
+                }}
+                key={item.name}
+                className={`tagItem ${
+                  item.name === defaultSelected.name ? 'highLight' : ''
+                }`}
+              >
                 <Icon name={item.iconName} />
                 <span>{item.name}</span>
               </li>
@@ -150,7 +184,15 @@ const TagEditw: React.FC = () => {
         <ul className='item-container'>
           {play.map(item => {
             return (
-              <li onClick={() => { selectedTagEvent(item.name, item.tagType, item.iconName) }} key={item.name} className={`tagItem ${item.name === defaultSelected.name ? 'highLight' : ''}`} >
+              <li
+                onClick={() => {
+                  selectedTagEvent(item.name, item.tagType, item.iconName)
+                }}
+                key={item.name}
+                className={`tagItem ${
+                  item.name === defaultSelected.name ? 'highLight' : ''
+                }`}
+              >
                 <Icon name={item.iconName} />
                 <span>{item.name}</span>
               </li>

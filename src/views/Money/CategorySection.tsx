@@ -48,7 +48,7 @@ const CategorySection: React.FC<Props> = props => {
   const category = props.category
   const history = useHistory()
   const goBack = () => {
-    history.goBack()
+    history.push('/')
   }
   return (
     <Wrapper>

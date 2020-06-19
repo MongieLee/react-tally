@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useUpdate } from 'hooks/useUpdate'
 
 type newRecordItem = {
-  tagIds: number[]
+  tag: {}
   note: string
   category: 'pay' | 'income'
   amount: number
