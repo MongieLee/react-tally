@@ -13,16 +13,17 @@ export type RecordItem = newRecordItem & {
 }
 export const useRecord = () => {
   const [records, setRecords] = useState<RecordItem[]>([])
-
   useEffect(() => {
     setRecords(JSON.parse(window.localStorage.getItem('recordList') || '[]'))
   }, [])
   const addRecord = (newRecord: newRecordItem) => {
     const record = { ...newRecord, createdAt: new Date().toISOString() }
+    console.log(record)
     setRecords([...records, record])
   }
   useUpdate(() => {
     window.localStorage.setItem('recordList', JSON.stringify(records))
   }, [records])
+
   return { records, addRecord }
 }

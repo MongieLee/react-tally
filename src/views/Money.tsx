@@ -44,7 +44,9 @@ const Money: React.FC = () => {
   }
   const submit = () => {
     addRecord(selected)
-    history.push('/')
+    setTimeout(() => {
+      history.push('/')
+    }, 0)
   }
   return (
     <MyLayout>
