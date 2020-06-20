@@ -4,7 +4,10 @@ import Layout from 'components/Layout'
 import Icon from 'components/Icon'
 import { HashRouter as Router, Switch, Route, Redirect, withRouter } from 'react-router-dom'
 import { useHistory } from 'react-router-dom'
+import { Modal, Button, Space } from 'antd';
+import { ExclamationCircleOutlined } from '@ant-design/icons';
 import dayJs from 'dayjs'
+const { confirm } = Modal;
 const EcordTitleWrapper = styled.div`
     .record-title {
   font-size: 17px;
@@ -62,18 +65,31 @@ const _EditTag: React.FC = (props: any) => {
     const recordItem = JSON.parse(localStorage.getItem("paihaoxude") || '[]')[day][id];
     const history = useHistory()
     const deleteRecord = () => {
-        let arr = JSON.parse(localStorage.getItem("recordList") || '[]');
-        console.log(arr)
-        arr.map((v:any) => {
-            if (
-                dayJs(v.createdAt).valueOf() ===
-                dayJs(recordItem.createdAt).valueOf()
-            ) {
-                arr.splice(arr.indexOf(v), 1);
-            }
-        });
-        localStorage.setItem("recordList", JSON.stringify(arr));
-        history.goBack()
+        confirm({
+            title: '此操作将永久删除该账单记录, 是否继续?',
+            icon: <ExclamationCircleOutlined />,
+            onOk() {
+                let arr = JSON.parse(localStorage.getItem("recordList") || '[]');
+                console.log(arr)
+                arr.map((v: any) => {
+                    if (
+                        dayJs(v.createdAt).valueOf() ===
+                        dayJs(recordItem.createdAt).valueOf()
+                    ) {
+                        arr.splice(arr.indexOf(v), 1);
+                    }
+                });
+                localStorage.setItem("recordList", JSON.stringify(arr));
+                history.goBack()
+            },
+            okText: '确定',
+            cancelText: '取消',
+            onCancel() {
+                console.log('Cancel');
+            },
+        })
+
+
     }
     return (
         <Layout>
@@ -88,7 +104,7 @@ const _EditTag: React.FC = (props: any) => {
                 <div className="info-wrapper">
                     <div>
                         <span className="info-title">类型：</span>
-                        {recordItem.tag.tagType}
+                        {recordItem.category==='pay'?'支出':'收入'}
                     </div>
                     <div>
                         <span className="info-title">金额：</span>
