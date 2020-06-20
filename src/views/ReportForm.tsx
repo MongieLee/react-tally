@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Layout from 'components/Layout'
 import styled from 'styled-components'
 import myChart from "lib/echarts";
+import dayJs from 'dayjs'
 console.log(myChart)
 const TopBar = styled.div`
   background-color: rgb(255, 218, 71);
@@ -55,7 +56,7 @@ const ClassWrapper = styled.div`
     color: #999;
   }
 `
-
+let allRecord = JSON.parse(localStorage.getItem('recordList') || '[]');
 const ReportForm = () => {
   const nullRecordObj: any = {
     week: [0, 0, 0, 0, 0, 0, 0],
@@ -95,23 +96,130 @@ const ReportForm = () => {
     year: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
   };
 
-  const [category, setCategory] = useState('pay')
-  const [companyDate, setCompanyDate] = useState('month')
-  const [currentList, setCurrentList] = useState([])
-  const [totalAmount, setTotalAmount] = useState(0)
-  const [lineData, setLineData] = useState(nullRecordObj[companyDate])
-  const [pieData, setPieData] = useState([])
+  let [category, setCategory] = useState('pay')
+  let [companyDate, setCompanyDate] = useState('month')
+  let [currentList, setCurrentList] = useState([])
+  let [totalAmount, setTotalAmount] = useState(0)
+  let lineData = nullRecordObj[companyDate]
+  let pieData = [{ value: 0, name: "暂无数据" }]
+  let payOrIncomeList: any[] = []; //记录最终所有支出or收入金额结果数组
+  const handleTypeList = {
+    week: () => {
+      let newArr: any = [];
+      let o: any = [];
+      let xxx = dayJs()
+        .startOf("week")
+        .add(1, "day");
+      for (let i = 0; i < 7; i++) {
+        o.push(xxx.add(i, "day").valueOf());
+      }
+      console.log(o);
+      allRecord.map((v: any) => {
+        o.indexOf(
+          dayJs(v.createAt)
+            .hour(0)
+            .minute(0)
+            .second(0)
+            .millisecond(0)
+            .valueOf()
+        ) >= 0 && newArr.push(v);
+      }); //筛选
+      console.log(`本周账单`, newArr)
 
+
+
+      let tempPieData: any = {};
+      newArr.map((value: any) => {
+        console.log(value.category === category);
+        if (value.category === category) {
+          let valueType = value.category;
+          if (tempPieData[valueType] === undefined) {
+            tempPieData[valueType] = value.amount;
+          } else {
+            tempPieData[valueType] += value.amount;
+          }
+        }
+      });
+      console.log(tempPieData);
+
+      if (Object.keys(tempPieData).length > 0) {
+        let pieList: any[] = [];
+        for (let item in tempPieData) {
+          pieList.push({ value: tempPieData[item], name: item });
+        }
+        pieData = pieList;
+        console.log(`这是最终的结果`, pieList);
+      }
+      for (let i = 0; i < 7; i++) {
+        newArr.map((v: any) => {
+          //得到本月31天每一天的账单数据
+          if (!payOrIncomeList[i]) {
+            payOrIncomeList[i] = [];
+          }
+          if (dayJs(v.createTime).day() === i) {
+            if (i === 0) {
+              payOrIncomeList[6].push(v);
+            } else {
+              payOrIncomeList[i - 1].push(v);
+            }
+          }
+        });
+      }
+      console.log(`payOrIncomeList`);
+      console.log(payOrIncomeList);
+      payOrIncomeList.map((v, index) => {
+        //31天每一天的总金额
+        if (v.length === 0) {
+          payOrIncomeList[index] = 0; //没有数据则当天为0
+        } else {
+          let count = 0;
+          v.map((value:any) => {
+            //遍历有数据的那天
+            if (value.type === category) {
+              count += parseFloat(value.amount);
+            }
+          });
+          payOrIncomeList[index] = count;
+        }
+      });
+      payOrIncomeList.map(value => {
+        totalAmount += value;
+      });
+      lineData = payOrIncomeList
+      console.log(lineData)
+
+
+
+
+
+
+
+
+
+
+
+
+    },
+    month: () => { },
+    year: () => { }
+  }
   useEffect(() => {
-    // let allRecord = JSON.parse(localStorage.getItem('recordList' || '[]'));
+    if (allRecord.length > 0) {
+      console.log('121212')
+    }
+    drawCharts()
+  })
+  const drawCharts = () => {
+    handleTypeList['week']()
     myChart.createLineChart(
       "lineChart",
       companyDate,
       lineData,
       category
     );
-    myChart.createPieChart("pieChart", [{ value: 0, name: "暂无数据" }]);
-  }, [])
+    myChart.createPieChart("pieChart", pieData);
+  }
+
   return (
     <Layout>
       <TopBar>
@@ -127,6 +235,7 @@ const ReportForm = () => {
           <span
             onClick={() => {
               setCategory('income')
+              drawCharts()
             }}
             className={category === 'income' ? 'active' : ''}
           >
