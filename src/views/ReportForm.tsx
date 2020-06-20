@@ -1,11 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Layout from 'components/Layout'
-import { useTags } from 'hooks/useTags'
-import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-import Icon from 'components/Icon'
-import { Button } from 'components/Button'
-
+import myChart from "lib/echarts";
+console.log(myChart)
 const TopBar = styled.div`
   background-color: rgb(255, 218, 71);
   padding: 11px 0;
@@ -35,7 +32,15 @@ const TopBar = styled.div`
     }
   }
 `
-const getTimeText = (companyDate:any) => {
+
+const LineChart = styled.div`
+  height: 23vh;
+`
+const PieChart = styled.div`
+    width: 100vw;
+  height: 42vh;
+`
+const getTimeText = (companyDate: any) => {
   let timeMap: any = {
     week: '本周',
     month: '本月',
@@ -52,8 +57,61 @@ const ClassWrapper = styled.div`
 `
 
 const ReportForm = () => {
+  const nullRecordObj: any = {
+    week: [0, 0, 0, 0, 0, 0, 0],
+    month: [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    year: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  };
+
   const [category, setCategory] = useState('pay')
   const [companyDate, setCompanyDate] = useState('month')
+  const [currentList, setCurrentList] = useState([])
+  const [totalAmount, setTotalAmount] = useState(0)
+  const [lineData, setLineData] = useState(nullRecordObj[companyDate])
+  const [pieData, setPieData] = useState([])
+
+  useEffect(() => {
+    // let allRecord = JSON.parse(localStorage.getItem('recordList' || '[]'));
+    myChart.createLineChart(
+      "lineChart",
+      companyDate,
+      lineData,
+      category
+    );
+    myChart.createPieChart("pieChart", [{ value: 0, name: "暂无数据" }]);
+  }, [])
   return (
     <Layout>
       <TopBar>
@@ -106,11 +164,11 @@ const ReportForm = () => {
 
       <ClassWrapper>
         {getTimeText(companyDate)}
-        <div>{category==='pay'?'总支出':'总收入'}</div>
-        <div>{category==='pay'?'平均支出':'平均收入'}</div>
+        <div>{category === 'pay' ? '总支出: ' : '总收入: '}{totalAmount}</div>
+        <div>{category === 'pay' ? '平均支出: ' : '平均收入: '}</div>
       </ClassWrapper>
-      <div id='lineChart'></div>
-      <div id='pieChart' className='aaa'></div>
+      <LineChart id='lineChart' />
+      <PieChart id='pieChart' />
     </Layout>
   )
 }
