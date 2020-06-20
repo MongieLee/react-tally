@@ -11,6 +11,8 @@ import moment from 'moment'
 import zhCN from 'antd/lib/date-picker/locale/zh_CN'
 import Icon from '../components/Icon'
 import { useTags } from 'hooks/useTags'
+import { useHistory } from 'react-router-dom'
+
 const TextTitle = styled.div`
   background-color: rgb(255, 218, 71);
   text-align: center;
@@ -191,6 +193,7 @@ const DateWrapper = styled.div`
   flex-direction: column-reverse;
 `
 const Statistics = () => {
+  const history = useHistory()
   const [currentM, setCurrentM] = useState(new Date())
   const { records } = useRecord()
   const { currentPay, currentIncome } = ddd(records, currentM)
@@ -251,7 +254,7 @@ const Statistics = () => {
                 <ul>
                   {value.map((www: any) => {
                     return (
-                      <ListItem key={www.createdAt}>
+                      <ListItem onClick={()=>{history.push('/statistics/details/14/12')}} key={www.createdAt}>
                         <Icon name={www.tag.iconName} />
                         <span className='tag-type'>{www.tag.name}</span>
                         <span className='amount'>{`${

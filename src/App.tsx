@@ -6,6 +6,7 @@ import Statistics from 'views/Statistics'
 import ReportForm from 'views/ReportForm'
 import NoMatch from 'views/NoMatch'
 import { TagEditw } from 'views/TagEditCopy'
+import { EditTag } from 'views/EditTag'
 
 const AppWrapper = styled.div`
   color: #333;
@@ -17,6 +18,9 @@ function App() {
         <Switch>
           <Route exact path='/labels'>
             <TagEditw />
+          </Route>
+          <Route path='/statistics/details/:day/:id'>
+            <EditTag />
           </Route>
           <Route exact path='/statistics'>
             <Statistics />
