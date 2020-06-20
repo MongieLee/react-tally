@@ -164,7 +164,7 @@ const ddd = (recordList: any, currentM: any) => {
   return { paixuhoude, currentPay, currentIncome }
 }
 
-const getDate = () => {}
+const getDate = () => { }
 const getPay = (arr: any[]) => {
   let glod: number = 0
   arr.map((item: any) => {
@@ -223,7 +223,7 @@ const Statistics = () => {
       console.log('星期几', dayJs(paixuhoude[index][0].createdAt).get('day'))
       return `${getMonth()}月${index}号 星期${
         objMap[dayJs(paixuhoude[index][0].createdAt).get('day')]
-      }`
+        }`
     }
   }
   const getRecordsList = () => {
@@ -252,14 +252,14 @@ const Statistics = () => {
                   </span>
                 </DayInfo>
                 <ul>
-                  {value.map((www: any) => {
+                  {value.map((www: any, index2: any) => {
                     return (
-                      <ListItem onClick={()=>{history.push('/statistics/details/14/12')}} key={www.createdAt}>
+                      <ListItem onClick={() => { history.push(`/statistics/details/${index}/${index2}`) }} key={www.createdAt}>
                         <Icon name={www.tag.iconName} />
                         <span className='tag-type'>{www.tag.name}</span>
                         <span className='amount'>{`${
                           www.category === 'pay' ? '- ' : '+ '
-                        }${www.amount.toFixed(2)}`}</span>
+                          }${www.amount.toFixed(2)}`}</span>
                       </ListItem>
                     )
                   })}
