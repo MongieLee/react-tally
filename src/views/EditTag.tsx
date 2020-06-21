@@ -2,9 +2,9 @@ import React from 'react'
 import styled from 'styled-components'
 import Layout from 'components/Layout'
 import Icon from 'components/Icon'
-import { HashRouter as Router, Switch, Route, Redirect, withRouter } from 'react-router-dom'
+import {  withRouter } from 'react-router-dom'
 import { useHistory } from 'react-router-dom'
-import { Modal, Button, Space } from 'antd';
+import { Modal  } from 'antd';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import dayJs from 'dayjs'
 const { confirm } = Modal;
@@ -71,7 +71,7 @@ const _EditTag: React.FC = (props: any) => {
             onOk() {
                 let arr = JSON.parse(localStorage.getItem("recordList") || '[]');
                 console.log(arr)
-                arr.map((v: any) => {
+                arr.forEach((v: any) => {
                     if (
                         dayJs(v.createdAt).valueOf() ===
                         dayJs(recordItem.createdAt).valueOf()

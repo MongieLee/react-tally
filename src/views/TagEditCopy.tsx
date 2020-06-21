@@ -4,7 +4,6 @@ import { useHistory } from 'react-router-dom'
 import Icon from 'components/Icon'
 import { useAllTags } from 'hooks/useAllTags'
 import { useTags } from 'hooks/useTags'
-import { Link } from 'react-router-dom'
 
 const TagsWrapper = styled.div`
   p,

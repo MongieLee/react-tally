@@ -1,7 +1,6 @@
 import styled from 'styled-components'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useTags } from 'hooks/useTags'
-import { createId } from 'lib/createId'
 import Icon from 'components/Icon'
 import { Link } from 'react-router-dom'
 const Wrapper = styled.section`
@@ -71,7 +70,6 @@ const TagsSection: React.FC<Props> = props => {
   let [c, setC] = useState({ name: '餐饮', tagType: '吃喝', iconName: 'food' })
   useTags()
   const tags = JSON.parse(localStorage.getItem('userTags') || '[]')!
-  const selectedTagIds = props.selected
   const lll = (item:any) => {
     setC({ ...item })
     console.log(c.name === item.name)

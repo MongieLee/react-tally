@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Layout from 'components/Layout'
 import styled from 'styled-components'
-import { useRecord, RecordItem } from 'hooks/useRecord'
+import { useRecord } from 'hooks/useRecord'
 import dayJs from 'dayjs'
 import 'antd/dist/antd.css'
 import { DatePicker } from 'antd'
@@ -10,7 +10,6 @@ import 'moment/locale/zh-cn'
 import moment from 'moment'
 import zhCN from 'antd/lib/date-picker/locale/zh_CN'
 import Icon from '../components/Icon'
-import { useTags } from 'hooks/useTags'
 import { useHistory } from 'react-router-dom'
 
 const TextTitle = styled.div`
@@ -29,19 +28,19 @@ const TimeAndCount = styled.div`
     margin-right: 13px;
   }
 `
-const CategorySection = styled.ul`
-  display: flex;
-  text-align: center;
-  background-color: yellow;
-  li {
-    border: 1px red solid;
-    width: 50%;
-    padding: 20px;
-    &.selected {
-      background-color: white;
-    }
-  }
-`
+// const CategorySection = styled.ul`
+//   display: flex;
+//   text-align: center;
+//   background-color: yellow;
+//   li {
+//     border: 1px red solid;
+//     width: 50%;
+//     padding: 20px;
+//     &.selected {
+//       background-color: white;
+//     }
+//   }
+// `
 
 const RecordsWrapper = styled.div`
   height: 100%;
@@ -66,7 +65,7 @@ const RecordsWrapper = styled.div`
 `
 
 const ListItem = styled.div`
-   {
+   
     color: black;
     padding: 5px 8px;
     display: flex;
@@ -90,7 +89,7 @@ const ListItem = styled.div`
       top: 50%;
       transform: translateY(-50%);
     }
-  }
+
 `
 const DayInfo = styled.div`
  padding: 3px 15px 3px 10px;
@@ -99,7 +98,7 @@ const DayInfo = styled.div`
         color: #999;
         display: flex;
         justify-content: space-between;
-      }
+      
       span:nth-child(1) {
         margin-right: 5px;
       }
@@ -116,6 +115,7 @@ const ddd = (recordList: any, currentM: any) => {
     return recordList
   }
   //   let currentM = new Date() //获取当前时间
+  
   let currentMonthList = JSON.parse(JSON.stringify(recordList)).filter(
     //遍历所有账单筛选出当前月份的时间
     (item: any) => {
@@ -126,7 +126,7 @@ const ddd = (recordList: any, currentM: any) => {
     }
   )
   let xxx = [] as any[] //声明一个空数组
-  currentMonthList.map((v: any) => {
+  currentMonthList.forEach((v: any) => {
     //遍历当前月账单数组
     let day = dayJs(v.createdAt).get('date')! //获取每一笔账单为几号
     if (!xxx[day]) {
@@ -137,7 +137,7 @@ const ddd = (recordList: any, currentM: any) => {
       xxx[day].push(v)
     }
   })
-  xxx.map(w => {
+  xxx.forEach(w => {
     //遍历分好每一天账单的数组
     w.sort(
       (
@@ -146,7 +146,7 @@ const ddd = (recordList: any, currentM: any) => {
       ) => dayJs(b.createdAt).valueOf() - dayJs(a.createdAt).valueOf() //按时间最新倒序排列
       //  dayJs(a.createTime).valueOf() - dayJs(b.createTime).valueOf()
     )
-    w.map((k: any) => {
+    w.forEach((k: any) => {
       //排序后再次遍历每一天的账单数据
       if (k.category === 'pay') {
         //如果账单的数据是支出
@@ -166,10 +166,9 @@ const ddd = (recordList: any, currentM: any) => {
   return { paixuhoude, currentPay, currentIncome }
 }
 
-const getDate = () => { }
 const getPay = (arr: any[]) => {
   let glod: number = 0
-  arr.map((item: any) => {
+  arr.forEach((item: any) => {
     if (item.category === 'pay') {
       glod += item.amount
     }
@@ -178,7 +177,7 @@ const getPay = (arr: any[]) => {
 }
 const getIncome = (arr: any[]) => {
   let glod: number = 0
-  arr.map((item: any) => {
+  arr.forEach((item: any) => {
     if (item.category !== 'pay') {
       glod += item.amount
     }
@@ -296,8 +295,8 @@ const Statistics = () => {
           ></DatePicker>
         </Hahaha>
         <div>
-          <span>{`收入：${currentPay && currentPay}`}</span>
-          <span>{`支出: ${currentIncome && currentIncome}`}</span>
+          <span>{`收入：${currentPay?currentPay:'0.00'}`}</span>
+          <span>{`支出: ${currentIncome?currentIncome:'0.00'}`}</span>
         </div>
       </TimeAndCount>
 

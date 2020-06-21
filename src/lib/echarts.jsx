@@ -74,7 +74,7 @@ export default {
 
   createPieChart (dom, data) {
     let legendData = []
-    data.map(v => {
+    data.forEach(v => {
       legendData.push(v.name)
     })
     const lineChart = Echarts.init(document.getElementById(dom))

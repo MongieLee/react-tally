@@ -101,9 +101,11 @@ const ReportForm = () => {
   let [companyDate, setCompanyDate] = useState('month')
   let [totalAmount, setTotalAmount] = useState(0)
   const getMoney = (a: any) => {
+    if (!a) { a = 0 }
     return a.toFixed(2)
   }
   let lineData = nullRecordObj[companyDate]
+  
   let pieData = [{ value: 0, name: "暂无数据" }]
   let payOrIncomeList: any[] = []; //记录最终所有支出or收入金额结果数组
   let newArr: any = [];
@@ -122,13 +124,8 @@ const ReportForm = () => {
       console.log(xxx)
       console.log('o:');
       console.log(o);
-      allRecord.map((v: any) => {
-        console.log(dayJs(v.createdAt)
-          .hour(0)
-          .minute(0)
-          .second(0)
-          .millisecond(0)
-          .valueOf())
+      allRecord.forEach((v: any) => {
+        
         if (o.indexOf(
           dayJs(v.createdAt)
             .hour(0)
@@ -145,7 +142,7 @@ const ReportForm = () => {
 
 
       let tempPieData: any = {};
-      newArr.map((value: any) => {
+      newArr.forEach((value: any) => {
         if (value.category === category) {
           let valueType = value.tag.tagType;
           if (tempPieData[valueType] === undefined) {
@@ -170,7 +167,7 @@ const ReportForm = () => {
       }
       console.log(newArr)
       for (let i = 0; i < 7; i++) {
-        newArr.map((v: any) => {
+        newArr.forEach((v: any) => {
           //得到本周7天每一天的账单数据
           if (dayJs(v.createdAt).day() === i) {
             if (dayJs(v.createdAt).day() === 0) {
@@ -184,13 +181,13 @@ const ReportForm = () => {
       }
       console.log(`payOrIncomeList`);
       console.log(payOrIncomeList);
-      payOrIncomeList.map((v, index) => {
+      payOrIncomeList.forEach((v, index) => {
         //31天每一天的总金额
         if (v.length === 0) {
           payOrIncomeList[index] = 0; //没有数据则当天为0
         } else {
           let count = 0;
-          v.map((value: any) => {
+          v.forEach((value: any) => {
             //遍历有数据的那天
             if (value.category === category) {
               count += parseFloat(value.amount);
@@ -199,7 +196,7 @@ const ReportForm = () => {
           payOrIncomeList[index] = count;
         }
       });
-      payOrIncomeList.map(value => {
+      payOrIncomeList.forEach(value => {
         totalAmount += value;
       });
       lineData = payOrIncomeList
@@ -221,19 +218,19 @@ const ReportForm = () => {
       let newArr2: any[] = [];
       totalAmount = 0
       newArr = [];
-      allRecord.map(v => {
+      allRecord.forEach(v => {
         dayJs(v.createdAt).year() === dayJs(new Date()).year() &&
           newArr2.push(v);
       }); //筛选出账单类别中所有属于本年的账单newArr
       console.log("这是今年的账单", newArr);
       console.log("这是月");
-      newArr2.map(v => {
+      newArr2.forEach(v => {
         dayJs(v.createdAt).month() === dayJs(new Date()).month() &&
           newArr.push(v);
       }); //筛选出账单类别中所有属于本月的账单newArr
 
       let tempPieData: any = {};
-      newArr.map((value: any) => {
+      newArr.forEach((value: any) => {
         console.log(value.category === category);
         if (value.category === category) {
           let valueType: any = value.tag.tagType;
@@ -252,25 +249,25 @@ const ReportForm = () => {
         pieData = pieList;
         console.log(pieData);
       }
-      let payOrIncomeList: any = []
+      payOrIncomeList= []
       for (let i = 0; i < 31; i++) {
-        newArr.map((v: any) => {
+        payOrIncomeList[i] = []
+      }
+      for (let i = 0; i < 31; i++) {
+        newArr.forEach((v: any) => {
           //得到本月31天每一天的账单数据
-          if (!payOrIncomeList[i]) {
-            payOrIncomeList[i] = [];
-          }
           if (dayJs(v.createTime).date() === i + 1) {
             payOrIncomeList[i].push(v);
           }
         });
       }
-      payOrIncomeList.map((v: any, index: any) => {
+      payOrIncomeList.forEach((v: any, index: any) => {
         //31天每一天的总金额
         if (v.length === 0) {
           payOrIncomeList[index] = 0; //没有数据则当天为0
         } else {
           let count = 0;
-          v.map((value: any) => {
+          v.forEach((value: any) => {
             //遍历有数据的那天
             if (value.category === category) {
               count += parseFloat(value.amount);
@@ -279,23 +276,24 @@ const ReportForm = () => {
           payOrIncomeList[index] = count;
         }
       });
-      payOrIncomeList.map((value: any) => {
+      payOrIncomeList.forEach((value: any) => {
         totalAmount += value;
       });
+      console.log(payOrIncomeList)
       lineData = payOrIncomeList;
       console.log(totalAmount)
     },
     year: () => {
       totalAmount = 0
       newArr = [];
-      allRecord.map(v => {
+      allRecord.forEach(v => {
         dayJs(v.createdAt).year() === dayJs(new Date()).year() &&
           newArr.push(v);
       }); //筛选出账单类别中所有属于本年的账单newArr
       console.log("这是今年的账单", newArr);
 
-      let tempPieData:any = {};
-      newArr.map((value:any) => {
+      let tempPieData: any = {};
+      newArr.forEach((value: any) => {
         console.log(value.category === category);
         if (value.category === category) {
           let valueType = value.tag.tagType;
@@ -307,7 +305,7 @@ const ReportForm = () => {
         }
       });
       console.log(tempPieData, "tempPieData");
-      if (!(Object.keys(tempPieData).length === 0) ){
+      if (!(Object.keys(tempPieData).length === 0)) {
         let pieList = [];
         for (let item in tempPieData) {
           pieList.push({ value: tempPieData[item], name: item });
@@ -319,24 +317,24 @@ const ReportForm = () => {
       payOrIncomeList = []
       //折线图
       for (let i = 0; i < 12; i++) {
-        newArr.map((v:any) => {
+        payOrIncomeList[i] = []
+      }
+      for (let i = 0; i < 12; i++) {
+        newArr.forEach((v: any) => {
           //得到本月31天每一天的账单数据
-          if (!payOrIncomeList[i]) {
-            payOrIncomeList[i] = [];
-          }
           if (dayJs(v.createdAt).month() === i) {
             payOrIncomeList[i].push(v);
           }
         });
       }
       console.log("payOrIncomeList", payOrIncomeList);
-      payOrIncomeList.map((v, index) => {
+      payOrIncomeList.forEach((v, index) => {
         //31天每一天的总金额
         if (v.length === 0) {
           payOrIncomeList[index] = 0; //没有数据则当天为0
         } else {
           let count = 0;
-          v.map((value:any) => {
+          v.forEach((value: any) => {
             //遍历有数据的那天
             if (value.category === category) {
               count += parseFloat(value.amount);
@@ -345,7 +343,8 @@ const ReportForm = () => {
           payOrIncomeList[index] = count;
         }
       });
-      payOrIncomeList.map(value => {
+      console.log(payOrIncomeList)
+      payOrIncomeList.forEach(value => {
         totalAmount += value;
       });
       lineData = payOrIncomeList;
@@ -362,6 +361,7 @@ const ReportForm = () => {
   }
   useEffect(() => {
     drawCharts(companyDate)
+    // eslint-disable-next-line
   }, [category, companyDate, records])
   const drawCharts = (companyDate: any) => {
     handleTypeList[companyDate]()

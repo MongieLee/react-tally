@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 
 const useAllTags = () => {
   const _allTagsList = {
@@ -123,7 +123,7 @@ const useAllTags = () => {
       }
     ]
   }
-  const [allTagsList, setAllTagsList] = useState(_allTagsList)
+  const [allTagsList] = useState(_allTagsList)
   const getTags = () => {
     return allTagsList
   }

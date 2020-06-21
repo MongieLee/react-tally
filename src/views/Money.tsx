@@ -20,14 +20,9 @@ const defaultSelected = {
 }
 const Money: React.FC = () => {
   const [selected, setSelected] = React.useState(defaultSelected)
-  const { records, addRecord } = useRecord()
+  const {  addRecord } = useRecord()
   const history = useHistory()
-  const onChange = (obj: any) => {
-    console.log(obj)
-    let o = { ...selected }
-    o.tag = obj
-    setSelected({ ...o })
-  }
+
   const amountChange = (amount: any) => {
     setSelected({ ...selected, amount })
   }
