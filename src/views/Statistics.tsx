@@ -104,8 +104,8 @@ const DayInfo = styled.div`
         margin-right: 5px;
       }
 `
-let currentPay: number = 0 //当前月份总支出
-let currentIncome: number = 0 //当前月份总收入
+let currentPay: any = 0 //当前月份总支出
+let currentIncome: any = 0 //当前月份总收入
 const ddd = (recordList: any, currentM: any) => {
   currentPay = 0
   currentIncome = 0
@@ -161,6 +161,8 @@ const ddd = (recordList: any, currentM: any) => {
   console.log(currentIncome)
   localStorage.setItem('paihaoxude', JSON.stringify(xxx))
   let paixuhoude = xxx
+  currentPay = currentPay.toFixed(2)
+  currentIncome = currentIncome.toFixed(2)
   return { paixuhoude, currentPay, currentIncome }
 }
 
@@ -181,6 +183,7 @@ const getIncome = (arr: any[]) => {
       glod += item.amount
     }
   })
+  console.log(glod)
   return glod.toFixed(2)
 }
 
@@ -206,7 +209,8 @@ const Statistics = () => {
     let currentM = new Date()
     return dayJs(currentM).get('month') + 1
   }
-
+  let getCurrentMonth = dayJs().year() + '/' + (dayJs().month() + 1)
+  console.log(getCurrentMonth)
   const getDate = function (index: any) {
     let objMap: any = {
       '1': '一',
@@ -285,15 +289,15 @@ const Statistics = () => {
               let x = parseInt(month) - 1
               setCurrentM(new Date(year, x))
             }}
-            defaultValue={moment('2020/06', 'YYYY/MM')}
+            defaultValue={moment(getCurrentMonth, 'YYYY/MM')} //'2020/06'
             format='YYYY/MM'
             locale={zhCN}
             picker='month'
           ></DatePicker>
         </Hahaha>
         <div>
-          <span>{`收入：${currentPay && currentPay.toFixed(2)}`}</span>
-          <span>{`支出: ${currentIncome && currentIncome.toFixed(2)}`}</span>
+          <span>{`收入：${currentPay && currentPay}`}</span>
+          <span>{`支出: ${currentIncome && currentIncome}`}</span>
         </div>
       </TimeAndCount>
 
