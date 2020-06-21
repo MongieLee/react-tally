@@ -206,6 +206,7 @@ const Statistics = () => {
     let currentM = new Date()
     return dayJs(currentM).get('month') + 1
   }
+
   const getDate = function (index: any) {
     let objMap: any = {
       '1': '一',
@@ -214,7 +215,7 @@ const Statistics = () => {
       '4': '四',
       '5': '五',
       '6': '六',
-      '7': '七'
+      '0': '日'
     }
     if (!paixuhoude[index]) {
       return
