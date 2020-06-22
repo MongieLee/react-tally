@@ -39,7 +39,6 @@ const LineChart = styled.div`
   height: 23vh;
 `
 const PieChart = styled.div`
-    width: 100vw;
   height: 42vh;
 `
 const getTimeText = (companyDate: any) => {

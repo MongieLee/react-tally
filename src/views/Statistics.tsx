@@ -115,7 +115,7 @@ const ddd = (recordList: any, currentM: any) => {
     return recordList
   }
   //   let currentM = new Date() //获取当前时间
-  
+
   let currentMonthList = JSON.parse(JSON.stringify(recordList)).filter(
     //遍历所有账单筛选出当前月份的时间
     (item: any) => {
@@ -187,7 +187,6 @@ const getIncome = (arr: any[]) => {
 }
 
 const Hahaha = styled.div`
-
   width: 138px;
 `
 const DateWrapper = styled.div`
@@ -288,6 +287,7 @@ const Statistics = () => {
               let x = parseInt(month) - 1
               setCurrentM(new Date(year, x))
             }}
+            inputReadOnly={true}
             defaultValue={moment(getCurrentMonth, 'YYYY/MM')} //'2020/06'
             format='YYYY/MM'
             locale={zhCN}
