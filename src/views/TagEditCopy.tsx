@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom'
 import Icon from 'components/Icon'
 import { useAllTags } from 'hooks/useAllTags'
 import { useTags } from 'hooks/useTags'
+import { message } from 'antd'; 
 
 const TagsWrapper = styled.div`
   p,
@@ -103,7 +104,8 @@ const TagEditw: React.FC = () => {
     console.log('这是tags')
     console.log(m)
     if (m.length > 0) {
-      alert('不能重复选择标签')
+      // alert('不能重复选择标签')
+      message.error('不能重复选择标签')
     } else {
       let tempList = [...tags, item]
       console.log(tempList)

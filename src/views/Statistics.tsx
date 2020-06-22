@@ -43,7 +43,7 @@ const TimeAndCount = styled.div`
 // `
 
 const RecordsWrapper = styled.div`
-  height: 100%;
+  height: 70vh;
   flex-grow: 1;
   display: flex;
   flex-direction: column;
@@ -295,8 +295,8 @@ const Statistics = () => {
           ></DatePicker>
         </Hahaha>
         <div>
-          <span>{`收入：${currentPay?currentPay:'0.00'}`}</span>
-          <span>{`支出: ${currentIncome?currentIncome:'0.00'}`}</span>
+          <span>{`收入：${currentIncome?currentIncome:'0.00'}`}</span>
+          <span>{`支出: ${currentPay?currentPay:'0.00'}`}</span>
         </div>
       </TimeAndCount>
 

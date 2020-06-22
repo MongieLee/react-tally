@@ -112,13 +112,11 @@ const ReportForm = () => {
     week: () => {
       let o: any = [];
       totalAmount = 0
+      console.log(dayJs().startOf("week").add(6,'day').day())
       let xxx = dayJs()
         .startOf("week")
-      if (xxx.day() === 0) {
-        xxx = xxx.subtract(6, 'day')
-      }
       for (let i = 0; i < 7; i++) {
-        o.push(xxx.add(i, "day").valueOf());
+        o.push(xxx.add(i, "day").unix());
       }
       console.log(xxx)
       console.log('o:');
@@ -131,7 +129,7 @@ const ReportForm = () => {
             .minute(0)
             .second(0)
             .millisecond(0)
-            .valueOf()
+            .unix()
         ) >= 0) {
           newArr.push(v);
         }

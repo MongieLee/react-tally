@@ -112,7 +112,7 @@ const _EditTag: React.FC = (props: any) => {
                     </div>
                     <div>
                         <span className="info-title">时间：</span>
-                        {recordItem.createdAt}
+                        {dayJs(recordItem.createdAt).format('YYYY-MM-DD HH:mm:ss')}
                     </div>
                     <div>
                         <span className="info-title">备注：</span>
