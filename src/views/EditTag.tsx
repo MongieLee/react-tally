@@ -70,7 +70,6 @@ const _EditTag: React.FC = (props: any) => {
             icon: <ExclamationCircleOutlined />,
             onOk() {
                 let arr = JSON.parse(localStorage.getItem("recordList") || '[]');
-                console.log(arr)
                 arr.forEach((v: any) => {
                     if (
                         dayJs(v.createdAt).valueOf() ===
@@ -85,7 +84,6 @@ const _EditTag: React.FC = (props: any) => {
             okText: '确定',
             cancelText: '取消',
             onCancel() {
-                console.log('Cancel');
             },
         })
 

@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import myChart from "lib/echarts";
 import dayJs from 'dayjs'
 import { useRecord } from 'hooks/useRecord'
-console.log(myChart)
+
 const TopBar = styled.div`
   background-color: rgb(255, 218, 71);
   padding: 11px 0;
@@ -104,7 +104,7 @@ const ReportForm = () => {
     return a.toFixed(2)
   }
   let lineData = nullRecordObj[companyDate]
-  
+
   let pieData = [{ value: 0, name: "暂无数据" }]
   let payOrIncomeList: any[] = []; //记录最终所有支出or收入金额结果数组
   let newArr: any = [];
@@ -112,17 +112,13 @@ const ReportForm = () => {
     week: () => {
       let o: any = [];
       totalAmount = 0
-      console.log(dayJs().startOf("week").add(6,'day').day())
       let xxx = dayJs()
-        .startOf("week")
-      for (let i = 0; i < 7; i++) {
+        .subtract(1, "day")
+        .startOf("week");
+      for (let i = 1; i < 8; i++) {
         o.push(xxx.add(i, "day").unix());
       }
-      console.log(xxx)
-      console.log('o:');
-      console.log(o);
       allRecord.forEach((v: any) => {
-        
         if (o.indexOf(
           dayJs(v.createdAt)
             .hour(0)
@@ -134,10 +130,6 @@ const ReportForm = () => {
           newArr.push(v);
         }
       }); //筛选
-      console.log(`本周账单`, newArr)
-
-
-
       let tempPieData: any = {};
       newArr.forEach((value: any) => {
         if (value.category === category) {
@@ -149,7 +141,6 @@ const ReportForm = () => {
           }
         }
       });
-      console.log(tempPieData);
 
       if (Object.keys(tempPieData).length > 0) {
         let pieList: any[] = [];
@@ -157,12 +148,10 @@ const ReportForm = () => {
           pieList.push({ value: tempPieData[item], name: item });
         }
         pieData = pieList;
-        console.log(`这是最终的结果`, pieList);
       }
       for (let i = 0; i < 7; i++) {
         payOrIncomeList[i] = []
       }
-      console.log(newArr)
       for (let i = 0; i < 7; i++) {
         newArr.forEach((v: any) => {
           //得到本周7天每一天的账单数据
@@ -170,14 +159,11 @@ const ReportForm = () => {
             if (dayJs(v.createdAt).day() === 0) {
               payOrIncomeList[6].push(v);
             } else {
-              console.log(dayJs(v.createdAt).day())
               payOrIncomeList[i - 1].push(v);
             }
           }
         });
       }
-      console.log(`payOrIncomeList`);
-      console.log(payOrIncomeList);
       payOrIncomeList.forEach((v, index) => {
         //31天每一天的总金额
         if (v.length === 0) {
@@ -197,17 +183,6 @@ const ReportForm = () => {
         totalAmount += value;
       });
       lineData = payOrIncomeList
-      console.log(lineData)
-
-
-
-
-
-
-
-
-
-
 
 
     },
@@ -219,8 +194,6 @@ const ReportForm = () => {
         dayJs(v.createdAt).year() === dayJs(new Date()).year() &&
           newArr2.push(v);
       }); //筛选出账单类别中所有属于本年的账单newArr
-      console.log("这是今年的账单", newArr);
-      console.log("这是月");
       newArr2.forEach(v => {
         dayJs(v.createdAt).month() === dayJs(new Date()).month() &&
           newArr.push(v);
@@ -228,7 +201,6 @@ const ReportForm = () => {
 
       let tempPieData: any = {};
       newArr.forEach((value: any) => {
-        console.log(value.category === category);
         if (value.category === category) {
           let valueType: any = value.tag.tagType;
           if (tempPieData[valueType] === undefined) {
@@ -244,9 +216,8 @@ const ReportForm = () => {
           pieList.push({ value: tempPieData[item], name: item });
         }
         pieData = pieList;
-        console.log(pieData);
       }
-      payOrIncomeList= []
+      payOrIncomeList = []
       for (let i = 0; i < 31; i++) {
         payOrIncomeList[i] = []
       }
@@ -276,9 +247,7 @@ const ReportForm = () => {
       payOrIncomeList.forEach((value: any) => {
         totalAmount += value;
       });
-      console.log(payOrIncomeList)
       lineData = payOrIncomeList;
-      console.log(totalAmount)
     },
     year: () => {
       totalAmount = 0
@@ -287,11 +256,9 @@ const ReportForm = () => {
         dayJs(v.createdAt).year() === dayJs(new Date()).year() &&
           newArr.push(v);
       }); //筛选出账单类别中所有属于本年的账单newArr
-      console.log("这是今年的账单", newArr);
 
       let tempPieData: any = {};
       newArr.forEach((value: any) => {
-        console.log(value.category === category);
         if (value.category === category) {
           let valueType = value.tag.tagType;
           if (tempPieData[valueType] === undefined) {
@@ -301,14 +268,11 @@ const ReportForm = () => {
           }
         }
       });
-      console.log(tempPieData, "tempPieData");
       if (!(Object.keys(tempPieData).length === 0)) {
         let pieList = [];
         for (let item in tempPieData) {
           pieList.push({ value: tempPieData[item], name: item });
         }
-        console.log(`pieList`);
-        console.log(pieList);
         pieData = pieList;
       }
       payOrIncomeList = []
@@ -324,7 +288,6 @@ const ReportForm = () => {
           }
         });
       }
-      console.log("payOrIncomeList", payOrIncomeList);
       payOrIncomeList.forEach((v, index) => {
         //31天每一天的总金额
         if (v.length === 0) {
@@ -340,22 +303,13 @@ const ReportForm = () => {
           payOrIncomeList[index] = count;
         }
       });
-      console.log(payOrIncomeList)
       payOrIncomeList.forEach(value => {
         totalAmount += value;
       });
       lineData = payOrIncomeList;
     }
   }
-  function pingjunshu(totalAmount: any) {
-    console.log(typeof totalAmount)
-    if (companyDate === "week")
-      return (totalAmount / 7).toFixed(2);
-    if (companyDate === "month")
-      return (totalAmount / 31).toFixed(2);
-    if (companyDate === "year")
-      return (totalAmount / 12).toFixed(2);
-  }
+
   useEffect(() => {
     drawCharts(companyDate)
     // eslint-disable-next-line
@@ -427,7 +381,6 @@ const ReportForm = () => {
       <ClassWrapper>
         {getTimeText(companyDate)}
         <div>{category === 'pay' ? '总支出: ' : '总收入: '}{getMoney(totalAmount)}</div>
-        <div>{category === 'pay' ? '平均支出: ' : '平均收入: '} {pingjunshu(totalAmount)}</div>
       </ClassWrapper>
       <LineChart id='lineChart' />
       <PieChart id='pieChart' />

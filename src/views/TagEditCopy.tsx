@@ -79,7 +79,6 @@ const TagEditw: React.FC = () => {
   }
   useTags()
   const tags = JSON.parse(localStorage.getItem('userTags') || '[]')!
-  console.log(tags)
   const [defaultSelected, setDefaultSelected] = useState({
     name: '餐饮',
     tagType: '吃喝',
@@ -97,18 +96,13 @@ const TagEditw: React.FC = () => {
   }
   const aaa = (item: any) => {
     let m = tags.filter((a: any) => {
-      console.log(JSON.stringify(a) === JSON.stringify(item))
-
       return JSON.stringify(a) === JSON.stringify(item)
     })
-    console.log('这是tags')
-    console.log(m)
     if (m.length > 0) {
       // alert('不能重复选择标签')
       message.error('不能重复选择标签')
     } else {
       let tempList = [...tags, item]
-      console.log(tempList)
       window.localStorage.setItem('userTags', JSON.stringify(tempList))
       history.push(`/money`)
     }

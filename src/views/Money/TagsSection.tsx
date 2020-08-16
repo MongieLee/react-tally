@@ -72,7 +72,6 @@ const TagsSection: React.FC<Props> = props => {
   const tags = JSON.parse(localStorage.getItem('userTags') || '[]')!
   const lll = (item:any) => {
     setC({ ...item })
-    console.log(c.name === item.name)
     props.onChange(item)
   }
   return (

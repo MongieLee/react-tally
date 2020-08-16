@@ -111,7 +111,6 @@ const ddd = (recordList: any, currentM: any) => {
   //遍历所有账单
   if (recordList.length === 0) {
     //账单为空就返回
-    console.log('999999999999999999')
     return recordList
   }
   //   let currentM = new Date() //获取当前时间
@@ -119,7 +118,8 @@ const ddd = (recordList: any, currentM: any) => {
   let currentMonthList = JSON.parse(JSON.stringify(recordList)).filter(
     //遍历所有账单筛选出当前月份的时间
     (item: any) => {
-      if (dayJs(item.createdAt).get('month') === dayJs(currentM).get('month')) {
+      if (dayJs(item.createdAt).get('month') === dayJs(currentM).get('month') &&
+        dayJs(item.createTime).get("year") === dayJs(currentM).get("year")) {
         //如果账单的月份等于当前月份则加进数组中
         return item
       }
@@ -157,8 +157,6 @@ const ddd = (recordList: any, currentM: any) => {
       }
     })
   })
-  console.log(currentPay)
-  console.log(currentIncome)
   localStorage.setItem('paihaoxude', JSON.stringify(xxx))
   let paixuhoude = xxx
   currentPay = currentPay.toFixed(2)
@@ -182,7 +180,6 @@ const getIncome = (arr: any[]) => {
       glod += item.amount
     }
   })
-  console.log(glod)
   return glod.toFixed(2)
 }
 
@@ -199,7 +196,6 @@ const Statistics = () => {
   const { records } = useRecord()
   const { currentPay, currentIncome } = ddd(records, currentM)
   let paixuhoude = ddd(records, currentM).paixuhoude
-  console.log(paixuhoude, currentPay, currentIncome)
   if (!paixuhoude) {
     paixuhoude = []!
   }
@@ -208,7 +204,6 @@ const Statistics = () => {
     return dayJs(currentM).get('month') + 1
   }
   let getCurrentMonth = dayJs().year() + '/' + (dayJs().month() + 1)
-  console.log(getCurrentMonth)
   const getDate = function (index: any) {
     let objMap: any = {
       '1': '一',
@@ -222,17 +217,12 @@ const Statistics = () => {
     if (!paixuhoude[index]) {
       return
     } else {
-      console.log(paixuhoude[index][0].createdAt, '---')
-      console.log('星期几', dayJs(paixuhoude[index][0].createdAt).get('day'))
       return `${getMonth()}月${index}号 星期${
         objMap[dayJs(paixuhoude[index][0].createdAt).get('day')]
         }`
     }
   }
   const getRecordsList = () => {
-    console.log('paixuhoude:')
-    console.log(paixuhoude)
-
     if (paixuhoude.length === 0) {
       return (
         <div className='no-data'>
@@ -244,7 +234,6 @@ const Statistics = () => {
       return (
         <DateWrapper>
           {paixuhoude.map((value: any, index: any) => {
-            console.log(value, index)
             return (
               <div key={index}>
                 <DayInfo>
@@ -291,12 +280,14 @@ const Statistics = () => {
             defaultValue={moment(getCurrentMonth, 'YYYY/MM')} //'2020/06'
             format='YYYY/MM'
             locale={zhCN}
+            allowClear={false}
             picker='month'
+
           ></DatePicker>
         </Hahaha>
         <div>
-          <span>{`收入：${currentIncome?currentIncome:'0.00'}`}</span>
-          <span>{`支出: ${currentPay?currentPay:'0.00'}`}</span>
+          <span>{`收入：${currentIncome ? currentIncome : '0.00'}`}</span>
+          <span>{`支出: ${currentPay ? currentPay : '0.00'}`}</span>
         </div>
       </TimeAndCount>
 

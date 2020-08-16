@@ -18,7 +18,6 @@ export const useRecord = () => {
   }, [])
   const addRecord = (newRecord: newRecordItem) => {
     const record = { ...newRecord, createdAt: new Date().toISOString() }
-    console.log(record)
     setRecords([...records, record])
   }
   useUpdate(() => {

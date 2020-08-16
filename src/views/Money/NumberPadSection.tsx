@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Wrapper } from './NumberPadSection/Wrapper'
 import { generateOutput } from './NumberPadSection/generateOutput'
+import { message } from 'antd';
 
 type Props = {
   amount: number
@@ -26,6 +27,10 @@ const NumberPadSection: React.FC<Props> = props => {
     const text = (e.target as HTMLButtonElement).textContent
     if (text === null) return
     if (text === 'OK') {
+      if (parseFloat(output).toFixed(2) === "0.00") {
+        message.error("金额不能为0")
+        return;
+      }
       props.onOk && props.onOk()
     }
     if (
