@@ -5,5 +5,5 @@ React版的技术栈使用了React / React Router/ Hooks / LocalStorage / Echart
 [React版预览地址](https://mongielee.gitee.io/react-lightbooking-website/#/statistics)
 
 
-Vue版的技术栈使用了Vue 2 / Vue Router / Vuex / LocalStorage / Echarts / ES6 / Element-Ui。
-[Vue版预览地址](https://mongielee.gitee.io/vue-lightbooking-website/#/statistics)  <br />[Vue版仓库跳转](https://github.com/MongieLee/vue-tally)
+Vue版的技术栈使用了Vue 2 / Vue Router / Vuex / LocalStorage / Echarts / ES6 / Element-Ui。  
+[Vue版预览地址](https://mongielee.gitee.io/vue-lightbooking-website/#/statistics)  [Vue版仓库跳转](https://github.com/MongieLee/vue-tally)
